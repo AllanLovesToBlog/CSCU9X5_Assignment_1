@@ -1,0 +1,12 @@
+Step 1: Choose concept for website (Approved by lec)
+- Image called Concept approval.png - Technologies approved by lecturer
+- For my Conecpt -> "The project is an interactive digital fanzine and museum archive 
+dedicated to the game 'Need For Speed: Most Wanted (2005)', exploring early-2000s gaming
+ history, automotive culture, and digital art. It uses nostalgic aesthetics, features an 
+ interactive vehicle showcase, archival media section, and is built using Astro framework,
+  Tailwind CSS, and custom JavaScript"
+
+Step 2: Develop the design and report
+- Make wireframe, mockup, prototype etc and code website with above tech stack
+- Make personas with their own stories and assume that they are my website users
+- Make sitemap for easier nav and project directory heirachy 
