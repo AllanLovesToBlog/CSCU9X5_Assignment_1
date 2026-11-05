@@ -25,3 +25,19 @@ Step 3: Build interactive prototype
 dead controls.
 - Use relative local links instead of absolute paths e.g ../../ and not /home/server/whatever
 - Document third-party libraries, templates and media sources for report section
+
+
+Step 4: Complete evaluation, reflection and finnaly report
+- Also mention if group work or solo work
+- Develop a realistic usability evaluation plan
+- Reflect on tutorial/lab group activities and explain how they affected the design
+- Write report independently in narrative prose, covering all required sections
+- Add a precise table describing every submitted website file anw what it does.
+- Disclose and cite any permitted AI-generated text or media in section 5 
+- Update cover sheet.
+
+Step 5: Package submission to zip file and send
+- verify in another computer to see if project works. But I got my personal webserver at 
+https://allan2.lovestoblog.com
+- Include the report, compulsory AI coversheet and website folder in one ZIP named 
+with student ID.
