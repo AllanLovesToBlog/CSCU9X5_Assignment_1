@@ -10,3 +10,18 @@ Step 2: Develop the design and report
 - Make wireframe, mockup, prototype etc and code website with above tech stack
 - Make personas with their own stories and assume that they are my website users
 - Make sitemap for easier nav and project directory heirachy 
+- Make layouts for the 5 different pages
+- 5 different types of pages, each with different types of user interface 
+(i.e 1 Home Page , 4 different types of secondary pages) 
+- Persona should closey relate to website
+- 3,500 word count for report approx. 14 ish pages
+
+
+Step 3: Build interactive prototype
+- Make portable five page website demonstrates navigation, multimedia, interactivity
+- Implement HomePage.html (hmm? WHy uni not want index.html and that's standard for webservers??)
+- Ah whatever index.html, homepage.html poteito potahto
+- Add functional interactions and label the prototype placeholders clearly instead of leaving 
+dead controls.
+- Use relative local links instead of absolute paths e.g ../../ and not /home/server/whatever
+- Document third-party libraries, templates and media sources for report section
