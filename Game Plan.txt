@@ -8,7 +8,7 @@ dedicated to the game 'Need For Speed: Most Wanted (2005)', exploring early-2000
 
 Step 2: Develop the design and report
 - Make wireframe, mockup, prototype etc and code website with above tech stack
-- Yoo, Draw.io makes wireframes too, noice
+- Nope nope, penpot, use penpot. Looks like figma, free and open source amd uses CSS
 - Make personas with their own stories and assume that they are my website users
 - Make sitemap for easier nav and project directory heirachy 
 - Make layouts for the 5 different pages
