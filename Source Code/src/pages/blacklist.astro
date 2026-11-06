@@ -1,0 +1,97 @@
+---
+import DriverCard from "../components/DriverCard.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
+const streetScene = asset("rockport.jpg");
+const drivers = [
+	{ rank: 1, name: "Razor", vehicle: "BMW M3 GTR", image: asset("blacklist_razor.webp"), imageAlt: "Razor's Need for Speed: Most Wanted profile portrait", detail: "The top-ranked rival and the driver behind the M3 GTR setup. His record is the final target on the Rockport list." },
+	{ rank: 2, name: "Bull", vehicle: "Mercedes-Benz SLR McLaren", image: asset("blacklist_bull.webp"), imageAlt: "Bull's Need for Speed: Most Wanted profile portrait", detail: "A high-ranking Rockport rival. His vehicle file records the SLR McLaren and his place just below the top spot." },
+	{ rank: 3, name: "Ronnie", vehicle: "Aston Martin DB9", image: asset("blacklist_ronnie.webp"), imageAlt: "Ronnie's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #03. Open the record to review the rival's vehicle file and challenge history." },
+	{ rank: 4, name: "JV", vehicle: "Dodge Viper SRT-10", image: asset("blacklist_jv.webp"), imageAlt: "JV's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #04. The dossier tracks the driver's standing, signature vehicle, and pursuit record." },
+	{ rank: 5, name: "Webster", vehicle: "Chevrolet Corvette C6.R", image: asset("blacklist_webster.webp"), imageAlt: "Webster's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #05. Review this rival's vehicle file and race record from the Rockport archive." },
+	{ rank: 6, name: "Ming", vehicle: "Lamborghini Gallardo", image: asset("blacklist_ming.webp"), imageAlt: "Ming's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #06. A rival record containing vehicle and challenge details." },
+	{ rank: 7, name: "Kaze", vehicle: "Mercedes-Benz CLK 500", image: asset("blacklist_kaze.webp"), imageAlt: "Kaze's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #07. The archive follows the car, race record, and pursuit notes for this entry." },
+	{ rank: 8, name: "Jewels", vehicle: "Ford Mustang GT", image: asset("blacklist_jewels.webp"), imageAlt: "Jewels's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #08. Open the file for the vehicle record and challenge history." },
+	{ rank: 9, name: "Earl", vehicle: "Mitsubishi Lancer Evolution VIII", image: asset("blacklist_earl.webp"), imageAlt: "Earl's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #09. The dossier keeps the driver's race file and vehicle information together." },
+	{ rank: 10, name: "Baron", vehicle: "Porsche Cayman S", image: asset("blacklist_baron.webp"), imageAlt: "Baron's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #10. A Rockport rival record with vehicle and challenge notes." },
+	{ rank: 11, name: "Big Lou", vehicle: "Mitsubishi Eclipse", image: asset("blacklist_big_lou.webp"), imageAlt: "Big Lou's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #11. Review the vehicle record and the rival's place in the pursuit through Rockport." },
+	{ rank: 12, name: "Izzy", vehicle: "Mazda RX-8", image: asset("blacklist_izzy.webp"), imageAlt: "Izzy's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #12. The archive's driver file brings together the vehicle and challenge record." },
+	{ rank: 13, name: "Vic", vehicle: "Toyota Supra", image: asset("blacklist_vic.webp"), imageAlt: "Vic's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #13. Open the record for the rival's vehicle details and challenge notes." },
+	{ rank: 14, name: "Taz", vehicle: "Lexus IS 300", image: asset("blacklist_taz.webp"), imageAlt: "Taz's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #14. A lower-ranked driver file documenting the Lexus and the road to the top of the list." },
+	{ rank: 15, name: "Sonny", vehicle: "Volkswagen Golf GTI", image: asset("blacklist_sonny.webp"), imageAlt: "Sonny's Need for Speed: Most Wanted profile portrait", detail: "Blacklist #15. The first rival record on the climb through Rockport's fifteen drivers." },
+];
+---
+
+<SiteLayout title="The Blacklist | Most Wanted Archive" description="Browse all fifteen Need for Speed: Most Wanted rivals by rank, search their driver files, and explore their vehicles.">
+	<SiteHeader activePage="blacklist" />
+	<main class="interior-page blacklist-page" id="top">
+		<section class="page-banner" style={`--banner-image: url("${streetScene}")`}>
+			<div class="interior-wrap page-banner-copy">
+				<p class="page-kicker"><span>02</span> / ROCKPORT'S MOST WANTED</p>
+				<h1>THE <em>BLACKLIST.</em></h1>
+				<p>Fifteen driver files. One climb from the bottom of the list to the top spot.</p>
+			</div>
+		</section>
+
+		<section class="page-content interior-wrap" aria-labelledby="roster-title">
+			<div class="content-heading">
+				<div><p class="page-kicker"><span>BLACKLIST ARCHIVE</span></p><h2 id="roster-title">DRIVER <em>ROSTER.</em></h2></div>
+				<p>Browse all fifteen rivals by rank and open a record for driver and challenge details.</p>
+			</div>
+
+			<div class="driver-tools">
+				<label for="driver-search">SEARCH <input id="driver-search" type="search" placeholder="SEARCH DRIVER NAME…" autocomplete="off" /></label>
+				<label for="driver-sort">SORT
+					<select id="driver-sort">
+						<option value="rank">RANK: #01 FIRST</option>
+						<option value="rank-desc">RANK: #15 FIRST</option>
+						<option value="name">DRIVER NAME</option>
+					</select>
+				</label>
+				<p class="driver-count" id="driver-count" aria-live="polite">15 DRIVER FILES</p>
+			</div>
+
+			<div class="driver-grid" id="driver-grid">
+				{drivers.map((driver) => <DriverCard {...driver} />)}
+			</div>
+			<p class="empty-state" id="driver-empty">NO DRIVER FILES MATCH THAT SEARCH.</p>
+
+			<div class="related-links city-related">
+				<a class="related-link" href={`${import.meta.env.BASE_URL}car`}><span>VEHICLE DOSSIER</span><strong>BMW M3 GTR</strong><b aria-hidden="true">↗</b></a>
+				<a class="related-link" href={`${import.meta.env.BASE_URL}rockport`}><span>FIELD NOTES</span><strong>Rockport city map</strong><b aria-hidden="true">↗</b></a>
+				<a class="related-link" href={`${import.meta.env.BASE_URL}archive`}><span>EVIDENCE LOCKER</span><strong>Media archive</strong><b aria-hidden="true">↗</b></a>
+			</div>
+		</section>
+	</main>
+	<SiteFooter />
+</SiteLayout>
+
+<script>
+	const driverGrid = document.querySelector<HTMLElement>("#driver-grid");
+	const driverSearch = document.querySelector<HTMLInputElement>("#driver-search");
+	const driverSort = document.querySelector<HTMLSelectElement>("#driver-sort");
+	const driverCount = document.querySelector<HTMLElement>("#driver-count");
+	const driverEmpty = document.querySelector<HTMLElement>("#driver-empty");
+	if (driverGrid && driverSearch && driverSort) {
+		const cards = Array.from(driverGrid.querySelectorAll<HTMLElement>("[data-driver-card]"));
+		function updateRoster() {
+			const term = driverSearch.value.trim().toLowerCase();
+			const matching = cards.filter((card) => (card.dataset.name ?? "").includes(term));
+			cards.forEach((card) => { card.hidden = !matching.includes(card); });
+			matching.sort((first, second) => {
+				if (driverSort.value === "name") return (first.dataset.name ?? "").localeCompare(second.dataset.name ?? "");
+				const rankDifference = Number(first.dataset.rank) - Number(second.dataset.rank);
+				return driverSort.value === "rank-desc" ? -rankDifference : rankDifference;
+			});
+			driverGrid.append(...matching);
+			if (driverCount) driverCount.textContent = `${matching.length} DRIVER FILE${matching.length === 1 ? "" : "S"}`;
+			driverEmpty?.classList.toggle("is-visible", matching.length === 0);
+		}
+
+		driverSearch.addEventListener("input", updateRoster);
+		driverSort.addEventListener("change", updateRoster);
+	}
+</script>

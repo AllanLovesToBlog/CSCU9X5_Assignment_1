@@ -1,0 +1,72 @@
+---
+interface Props {
+	activePage: "home" | "rockport" | "car" | "blacklist" | "archive";
+	landing?: boolean;
+	showMusic?: boolean;
+}
+
+const { activePage, landing = false, showMusic = false } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const icon = `${base}assets/icon.png`;
+const logo = `${base}assets/logo.png`;
+const links = [
+	{ key: "home", label: "HOME", href: base },
+	{ key: "rockport", label: "ROCKPORT", href: `${base}rockport` },
+	{ key: "car", label: "THE CAR", href: `${base}car` },
+	{ key: "blacklist", label: "BLACKLIST", href: `${base}blacklist` },
+	{ key: "archive", label: "MEDIA", href: `${base}archive` },
+];
+---
+
+<header class:list={["site-header", landing ? "page-wrap" : "site-header--interior"]}>
+	<a class="brand" href={base} aria-label="Most Wanted archive home">
+		<img class="brand-icon" src={icon} alt="" />
+		<img class="brand-wordmark" src={logo} alt="Need for Speed Most Wanted" />
+	</a>
+	<button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="main-navigation" aria-expanded="false">
+		<span></span><span></span><span></span>
+	</button>
+	<nav class="main-nav" id="main-navigation" aria-label="Main navigation">
+		{links.map((link) => (
+			<a href={link.href} aria-current={activePage === link.key ? "page" : undefined}>{link.label}</a>
+		))}
+		{showMusic && (
+			<button class="music-toggle" id="music-toggle" type="button" aria-label="Mute background music" aria-pressed="false">
+				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+					<path d="M4 10v4h3l5 4V6l-5 4H4Z" />
+					<path class="music-waves" d="M15 9a4 4 0 0 1 0 6m2-9a7 7 0 0 1 0 12" />
+					<path class="music-muted" d="m16 9 5 6m0-6-5 6" />
+				</svg>
+			</button>
+		)}
+	</nav>
+</header>
+
+<script>
+	const menuButton = document.querySelector<HTMLButtonElement>(".menu-toggle");
+	const siteHeader = document.querySelector<HTMLElement>(".site-header");
+	if (menuButton && siteHeader) {
+		function closeNavigation() {
+			siteHeader.classList.remove("menu-open");
+			menuButton.setAttribute("aria-expanded", "false");
+			menuButton.setAttribute("aria-label", "Open navigation menu");
+		}
+
+		menuButton.addEventListener("click", () => {
+			const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+			siteHeader.classList.toggle("menu-open", !isOpen);
+			menuButton.setAttribute("aria-expanded", String(!isOpen));
+			menuButton.setAttribute("aria-label", isOpen ? "Open navigation menu" : "Close navigation menu");
+		});
+		siteHeader.querySelectorAll(".main-nav a").forEach((link) => link.addEventListener("click", closeNavigation));
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
+				closeNavigation();
+				menuButton.focus();
+			}
+		});
+		window.matchMedia("(min-width: 761px)").addEventListener("change", (event) => {
+			if (event.matches) closeNavigation();
+		});
+	}
+</script>

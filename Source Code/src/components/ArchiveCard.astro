@@ -1,0 +1,30 @@
+---
+interface Props {
+	title: string;
+	category: "VIDEO" | "PICS" | "DRIVER FILE" | "VEHICLE IMAGE" | "PHYSICAL ARTIFACT";
+	image: string;
+	imageAlt: string;
+	description: string;
+	videoSrc?: string;
+}
+
+const { title, category, image, imageAlt, description, videoSrc } = Astro.props;
+---
+
+<article class="archive-card" data-archive-card data-category={category} data-title={`${title} ${description}`.toLowerCase()}>
+	<figure class="archive-card-media">
+		{videoSrc ? (
+			<video autoplay muted playsinline controls preload="auto" poster={image} aria-label={title}>
+				<source src={videoSrc} type="video/webm" />
+				Your browser does not support embedded video.
+			</video>
+		) : (
+			<img src={image} alt={imageAlt} loading="lazy" />
+		)}
+		<figcaption>{category}</figcaption>
+	</figure>
+	<div class="archive-card-copy">
+		<h2>{title}</h2>
+		<p>{description}</p>
+	</div>
+</article>

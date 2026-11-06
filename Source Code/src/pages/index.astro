@@ -1,0 +1,240 @@
+---
+import SpecCard from "../components/SpecCard.astro";
+import MediaCard from "../components/MediaCard.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const publicAsset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
+const openingIntro = publicAsset("nfsmw_menu_screen.png");
+const introVideo = publicAsset("need_for_speed_most_wanted_intro_4k_remastered.mp4");
+const introVideoWebm = publicAsset("need_for_speed_most_wanted_intro_4k_remastered.webm");
+const spinnerVideo = publicAsset("website_spinner.mp4");
+const spinnerVideoWebm = publicAsset("website_spinner.webm");
+const heatLevelIcon = publicAsset("heat_level_6.jpg");
+const bmwM3 = publicAsset("bmw_m3_gtr.png");
+const bmwM3Archive = publicAsset("bmw-m3-gtr-from-2005-s-need-for-speed-most-wanted.webp");
+const bmwM3Detail = publicAsset("bmw-m3-gtr-nfs-hd-04.webp");
+const bmwM3Street = publicAsset("bmw-m3-gtr-nfs-hd-05.webp");
+const bmwM3Garage = publicAsset("bmw-m3-gtr-nfs-hd-14.jpg");
+const mercedesMcLaren = publicAsset("mercedes_mclaren.png");
+const razorPoster = bmwM3Detail;
+const ps2Disc = publicAsset("playstation2_disc.png");
+
+const carGallery = [
+	{ image: bmwM3, alt: "Silver and blue BMW M3 GTR on a Rockport highway", model: "BMW M3 GTR" },
+	{ image: bmwM3Archive, alt: "BMW M3 GTR from Need for Speed Most Wanted", model: "BMW M3 GTR" },
+	{ image: bmwM3Detail, alt: "BMW M3 GTR in a Rockport street scene", model: "BMW M3 GTR" },
+	{ image: bmwM3Street, alt: "BMW M3 GTR racing through the city", model: "BMW M3 GTR" },
+	{ image: bmwM3Garage, alt: "BMW M3 GTR parked in a garage", model: "BMW M3 GTR" },
+	{ image: mercedesMcLaren, alt: "Mercedes McLaren on a Rockport road", model: "MERCEDES MCLAREN" },
+];
+
+const specs = [
+	{ label: "Engine", value: "4.0L P60B40 V8", detail: "Naturally aspirated", index: "01" },
+	{ label: "Power", value: "444 bhp", detail: "at 7,500 RPM", index: "02" },
+	{ label: "Torque", value: "480 Nm", detail: "at 5,500 RPM", index: "03" },
+	{ label: "Top speed", value: "~180 mph", detail: "289 km/h", index: "04" },
+	{ label: "Weight", value: "1,120 kg", detail: "2,469 lbs", index: "05" },
+	{ label: "Transmission", value: "6-speed", detail: "Hewland sequential", index: "06" },
+];
+---
+
+	<SiteLayout title="Need for Speed: Most Wanted (2005) - The Blacklist Archive" description="A fan-made archive celebrating Need for Speed: Most Wanted (2005), the BMW M3 GTR, and Rockport's most wanted.">
+		<div class="intro-splash" id="intro-splash" aria-hidden="true">
+			<video class="intro-splash-video" autoplay muted playsinline preload="auto" poster={openingIntro}>
+				<source src={spinnerVideo} type="video/mp4" />
+				<source src={spinnerVideoWebm} type="video/webm" />
+			</video>
+		</div>
+		<section class="hero" id="top" aria-labelledby="hero-title">
+			<div class="hero-backdrop" aria-hidden="true">
+				<video class="hero-backdrop-video" autoplay muted loop playsinline preload="auto" poster={openingIntro}>
+					<source src={introVideo} type="video/mp4" />
+					<source src={introVideoWebm} type="video/webm" />
+				</video>
+				<div class="hero-shade"></div>
+			</div>
+			<div class="hero-grit" aria-hidden="true"></div>
+			<SiteHeader activePage="home" landing showMusic />
+
+			<div class="hero-copy page-wrap">
+				<div class="hero-kicker"><span class="status-light"></span> BLACKLIST DOSSIER <span class="kicker-line"></span> 11.15.05</div>
+				<h1 id="hero-title"><span>THE MOST</span><span class="wanted-word">WANTED<span class="title-asterisk">*</span></span><span class="hero-edition">(2005)</span></h1>
+				<p class="hero-description">Fifteen rivals but only one becomes Rockport's most wanted driver.</p>
+				<div class="hero-actions">
+					<a class="btn btn-primary skew-button" href="#m3"><span>MEET THE LEGEND <b aria-hidden="true">↘</b></span></a>
+					<a class="text-link" href="#archive"><span>ENTER THE ARCHIVE</span><b aria-hidden="true">+</b></a>
+				</div>
+				<div class="hero-side-note" aria-hidden="true"><span>01 / 15</span><i></i><span>YOU ARE ON THE LIST</span></div>
+			</div>
+			<div class="hero-bottom page-wrap">
+				<span>ROCKPORT CITY.</span>
+				<span class="hero-bottom-center">WANTED LEVEL: <img class="wanted-level-icon" src={heatLevelIcon} alt="Heat level 6" /></span>
+				<span>SCROLL TO EXPLORE <b>↓</b></span>
+			</div>
+		</section>
+
+		<main>
+			<section class="car-section section-pad" id="m3" aria-labelledby="car-title">
+				<div class="page-wrap">
+					<div class="section-heading">
+						<div><p class="section-kicker"><span>01</span> THE GETAWAY CAR</p><h2 id="car-title">THE <em>LEGEND.</em></h2></div>
+					</div>
+					<figure class="car-visual" id="car-carousel" role="region" aria-roledescription="carousel" aria-label="Need for Speed car gallery" tabindex="0">
+						{carGallery.map((car, index) => (
+							<div class="car-slide" data-car-slide data-model={car.model} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${carGallery.length}: ${car.model}`} aria-hidden={index !== 0} hidden={index !== 0}>
+								<img class="car-carousel-image" src={car.image} alt={car.alt} loading="eager" />
+							</div>
+						))}
+						<div class="car-visual-shade"></div>
+						<figcaption class="car-visual-caption">
+							<div><strong id="car-model">{carGallery[0].model}</strong></div>
+							<div class="car-carousel-controls" aria-label="Carousel controls">
+								<button class="car-carousel-control" type="button" data-car-previous aria-label="Previous car image">‹</button>
+								<span class="car-plate" id="car-carousel-status" aria-live="polite" aria-atomic="true">01 / {String(carGallery.length).padStart(2, "0")}</span>
+								<button class="car-carousel-control" type="button" data-car-next aria-label="Next car image">›</button>
+							</div>
+						</figcaption>
+						<span class="image-coordinate" aria-hidden="true">ROCKPORT / VEHICLE ARCHIVE / 2005</span>
+					</figure>
+					<div class="spec-heading"><span>VEHICLE TELEMETRY</span><span>BMW M3 GTR · RACE SPEC</span></div>
+					<div class="spec-grid">
+						{specs.map((spec) => <SpecCard {...spec} />)}
+					</div>
+				</div>
+			</section>
+
+			<section class="archive-section section-pad" id="archive" aria-labelledby="archive-title">
+				<div class="page-wrap">
+					<div class="section-heading archive-heading">
+						<div><p class="section-kicker"><span>02</span> EVIDENCE LOCKER</p><h2 id="archive-title">THE <em>ARCHIVE.</em></h2></div>
+					</div>
+					<div class="media-grid">
+						<MediaCard index="A" title="Razor's Intro" eyebrow="BLACKLIST #01" image={razorPoster} alt="BMW M3 GTR in a smoky Rockport street scene" mediaSrc={publicAsset("blacklist_1_razors_intro.webm")} />
+						<MediaCard index="B" title="Game Intro" eyebrow="OPENING FRAME" image={openingIntro} alt="Need for Speed Most Wanted opening sequence still" showStillLink={false} />
+					</div>
+
+					<div class="disc-archive">
+						<div class="disc-copy">
+							<p class="section-kicker"><span>03</span> PHYSICAL MEDIA</p>
+							<h3>Get it now on PS2 consoles</h3>
+							<p>Available while stocks last. Original game media protected by copyright law; unauthorised reproduction is prohibited.</p>
+							<span class="disc-stamp">PS2 · NTSC · 2005</span>
+						</div>
+						<div class="disc-art-wrap"><img class="disc-art" src={ps2Disc} alt="PlayStation 2 Need for Speed Most Wanted game disc" loading="lazy" /><span class="disc-orbit" aria-hidden="true"></span><span class="disc-tag" aria-hidden="true">ARCHIVE<br />ORIGINAL</span></div>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<SiteFooter />
+
+		<div id="music-player" class="music-player" aria-hidden="true"></div>
+		<p id="music-status" class="visually-hidden" aria-live="polite">Trying to start background music.</p>
+		<script is:inline>
+			const introSplash = document.querySelector("#intro-splash");
+			if (introSplash) window.setTimeout(() => introSplash.remove(), 3500);
+
+			const musicButton = document.querySelector("#music-toggle");
+			const musicStatus = document.querySelector("#music-status");
+			const carCarousel = document.querySelector("#car-carousel");
+			if (carCarousel) {
+				const carSlides = Array.from(carCarousel.querySelectorAll("[data-car-slide]"));
+				const carModel = carCarousel.querySelector("#car-model");
+				const carStatus = carCarousel.querySelector("#car-carousel-status");
+				let currentCarSlide = 0;
+
+				function showCarSlide(index) {
+					currentCarSlide = (index + carSlides.length) % carSlides.length;
+					const activeSlide = carSlides[currentCarSlide];
+					carSlides.forEach((slide, slideIndex) => {
+						const isActive = slideIndex === currentCarSlide;
+						slide.hidden = !isActive;
+						slide.setAttribute("aria-hidden", String(!isActive));
+					});
+					carModel.textContent = activeSlide.dataset.model;
+					carStatus.textContent = `${String(currentCarSlide + 1).padStart(2, "0")} / ${String(carSlides.length).padStart(2, "0")}`;
+				}
+
+				carCarousel.querySelector("[data-car-previous]").addEventListener("click", () => showCarSlide(currentCarSlide - 1));
+				carCarousel.querySelector("[data-car-next]").addEventListener("click", () => showCarSlide(currentCarSlide + 1));
+				carCarousel.addEventListener("keydown", (event) => {
+					if (event.key === "ArrowLeft") showCarSlide(currentCarSlide - 1);
+					if (event.key === "ArrowRight") showCarSlide(currentCarSlide + 1);
+				});
+				window.setInterval(() => showCarSlide(currentCarSlide + 1), 3000);
+			}
+
+			let musicPlayer;
+			let musicPlaying = false;
+			let musicMuted = false;
+			let autoplayBlocked = false;
+
+			function updateMusicControl() {
+				const needsManualStart = autoplayBlocked && !musicPlaying;
+				musicButton.setAttribute("aria-label", needsManualStart ? "Play background music" : musicMuted ? "Unmute background music" : "Mute background music");
+				musicButton.setAttribute("aria-pressed", String(musicMuted));
+				musicButton.dataset.autoplayBlocked = String(needsManualStart);
+				if (needsManualStart) musicStatus.textContent = "Autoplay was blocked. Select the music control to start playback.";
+				else if (musicPlaying) musicStatus.textContent = musicMuted ? "Background music is muted." : "Background music is playing.";
+			}
+
+			window.onYouTubeIframeAPIReady = () => {
+				musicPlayer = new YT.Player("music-player", {
+					width: "200",
+					height: "200",
+					videoId: "M_s95No5E-s",
+					playerVars: {
+						autoplay: 1,
+						controls: 0,
+						disablekb: 1,
+						fs: 0,
+						loop: 1,
+						playlist: "M_s95No5E-s",
+						playsinline: 1,
+						rel: 0,
+						origin: window.location.origin,
+					},
+					events: {
+						onReady(event) {
+							event.target.setVolume(45);
+							event.target.playVideo();
+						},
+						onStateChange(event) {
+							musicPlaying = event.data === YT.PlayerState.PLAYING;
+							if (musicPlaying) autoplayBlocked = false;
+							updateMusicControl();
+						},
+						onAutoplayBlocked() {
+							autoplayBlocked = true;
+							updateMusicControl();
+						},
+						onError() {
+							musicStatus.textContent = "Background music could not be loaded from YouTube.";
+						},
+					},
+				});
+			};
+
+			musicButton.addEventListener("click", () => {
+				if (!musicPlayer) return;
+				if (!musicPlaying) {
+					autoplayBlocked = false;
+					musicMuted = false;
+					musicPlayer.unMute();
+					musicPlayer.playVideo();
+				} else {
+					musicMuted = !musicMuted;
+					if (musicMuted) musicPlayer.mute();
+					else musicPlayer.unMute();
+				}
+				updateMusicControl();
+			});
+
+			const youtubeApi = document.createElement("script");
+			youtubeApi.src = "https://www.youtube.com/iframe_api";
+			youtubeApi.async = true;
+			document.head.append(youtubeApi);
+		</script>
+	</SiteLayout>

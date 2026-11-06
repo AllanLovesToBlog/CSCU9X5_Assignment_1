@@ -1,0 +1,95 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
+const cityImage = asset("rockport.jpg");
+const mapsSearch = (city: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(city)}`;
+const mapsEmbed = (city: string) => `https://www.google.com/maps?q=${encodeURIComponent(city)}&output=embed`;
+const districts = [
+	{ id: "rockport", index: "00", name: "Rockport", city: "New York City, NY", note: "City skyline · central Rockport reference", route: "City reference" },
+	{ id: "rosewood", index: "01", name: "Rosewood", city: "Chicago, IL", note: "Campus · residential blocks", route: "Race / landmark" },
+	{ id: "camden", index: "02", name: "Point Camden", city: "Washington, DC", note: "Hill roads · race events", route: "Race points" },
+	{ id: "downtown", index: "03", name: "Downtown", city: "London, UK", note: "Civic center · high-speed streets", route: "City district" },
+	{ id: "docks", index: "04", name: "Industrial Docks", city: "Tokyo, Japan", note: "Waterfront · industrial routes", route: "City district" },
+];
+const mapPins = [
+	{ left: 48, top: 46 },
+	{ left: 18, top: 27 },
+	{ left: 57, top: 61 },
+	{ left: 72, top: 21 },
+	{ left: 36, top: 71 },
+];
+---
+
+<SiteLayout title="Rockport City Map | Most Wanted Archive" description="Explore Rockport districts, notable locations, and story evidence from Need for Speed: Most Wanted (2005).">
+	<SiteHeader activePage="rockport" />
+	<main class="interior-page" id="top">
+		<section class="page-banner" style={`--banner-image: url("${cityImage}")`}>
+			<div class="interior-wrap page-banner-copy">
+				<p class="page-kicker"><span>04</span> / CITY INTELLIGENCE</p>
+				<h1>ROCKPORT <em>CITY MAP.</em></h1>
+				<p>Explore the city districts, notable locations, and story evidence behind the chase.</p>
+			</div>
+		</section>
+
+		<section class="page-content interior-wrap" aria-labelledby="city-title">
+			<div class="content-heading">
+				<div><p class="page-kicker"><span>FIELD NOTES / LOCATIONS</span></p><h2 id="city-title">ROCKPORT <em>DISTRICTS.</em></h2></div>
+				<p>Trace the pursuit route across the city and follow the locations back to their related driver and vehicle files.</p>
+			</div>
+
+			<div class="city-intel-grid">
+				<div class="rockport-map" role="region" aria-label="Schematic Rockport city map showing Rockport, Rosewood, Point Camden, downtown, and industrial docks" style={`--map-image: url("${cityImage}")`}>
+					<div class="map-grid-overlay" aria-hidden="true"></div>
+					<svg class="map-routes" viewBox="0 0 800 500" preserveAspectRatio="none" aria-hidden="true">
+						<path d="M70 390 C180 360 145 270 280 280 S390 170 500 215 S630 150 745 95" />
+						<path d="M65 120 C170 155 190 90 325 125 S450 330 570 340 S680 275 755 300" />
+					</svg>
+					{districts.map((district, index) => (
+						<a class="map-pin" href={`#district-${district.id}`} style={`left: ${mapPins[index].left}%; top: ${mapPins[index].top}%`} aria-label={`View ${district.name} location`}>
+							<i aria-hidden="true"></i>{district.name.toUpperCase()}
+						</a>
+					))}
+					<span class="map-coordinate">ROCKPORT CITY MAP / SCHEMATIC</span>
+				</div>
+
+				<aside class="pursuit-panel" aria-labelledby="pursuit-title">
+					<p class="page-kicker"><span>PURSUIT ROUTE</span></p>
+					<h2 id="pursuit-title">CITY <em>INTEL.</em></h2>
+					<p>Street files, race locations, and Blacklist records give context to the chase through Rockport.</p>
+					<div class="pursuit-stat"><span>MAP LOCATIONS</span><strong>05</strong></div>
+					<div class="pursuit-stat"><span>FIELD FILES</span><strong>15 RIVALS</strong></div>
+					<div class="pursuit-stat"><span>FEATURED VEHICLE</span><strong>BMW M3 GTR</strong></div>
+				</aside>
+			</div>
+
+			<section aria-label="Rockport city and district files" style="margin-top: 52px">
+				<div class="district-grid">
+					{districts.map((district) => (
+						<article class="district-card" id={`district-${district.id}`}>
+							<span>{district.index} / {district.route.toUpperCase()}</span>
+							<h3>{district.name}</h3>
+							<p>{district.note}</p>
+							<div class="district-map">
+								<iframe src={mapsEmbed(district.city)} title={`Google Maps location for ${district.name} in ${district.city}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+							</div>
+							<a href={mapsSearch(district.city)} target="_blank" rel="noopener noreferrer">OPEN {district.city.toUpperCase()} IN GOOGLE MAPS <span aria-hidden="true">↗</span></a>
+						</article>
+					))}
+				</div>
+			</section>
+
+			<section class="city-related" aria-labelledby="city-related-title">
+				<div class="content-heading"><div><p class="page-kicker"><span>RELATED LINKS</span></p><h2 id="city-related-title">FOLLOW THE <em>EVIDENCE.</em></h2></div></div>
+				<div class="related-links">
+					<a class="related-link" href={`${import.meta.env.BASE_URL}blacklist`}><span>DRIVER RECORDS</span><strong>Blacklist roster</strong><b aria-hidden="true">↗</b></a>
+					<a class="related-link" href={`${import.meta.env.BASE_URL}car`}><span>VEHICLE FILE</span><strong>BMW M3 GTR</strong><b aria-hidden="true">↗</b></a>
+					<a class="related-link" href={`${import.meta.env.BASE_URL}archive`}><span>MEDIA ARCHIVE</span><strong>Evidence locker</strong><b aria-hidden="true">↗</b></a>
+				</div>
+			</section>
+		</section>
+	</main>
+	<SiteFooter />
+</SiteLayout>

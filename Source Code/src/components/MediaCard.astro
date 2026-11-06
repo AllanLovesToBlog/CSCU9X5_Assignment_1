@@ -1,0 +1,40 @@
+---
+interface Props {
+	index: string;
+	title: string;
+	eyebrow: string;
+	description?: string;
+	image: string;
+	alt: string;
+	mediaSrc?: string;
+	showStillLink?: boolean;
+}
+
+const { index, title, eyebrow, description, image, alt, mediaSrc, showStillLink = true } = Astro.props;
+---
+
+<article class="media-card">
+	<div class="media-frame">
+		{mediaSrc ? (
+			<video autoplay muted loop playsinline preload="auto" poster={image} aria-label={title}>
+				<source src={mediaSrc} type="video/webm" />
+				Your browser does not support embedded video.
+			</video>
+		) : (
+			showStillLink ? (
+				<a class="still-link" href={image} target="_blank" rel="noreferrer" aria-label={`Open the ${title} still image`}>
+					<img src={image} alt={alt} loading="lazy" />
+					<span class="still-action"><span class="play-glyph" aria-hidden="true">↗</span><span>VIEW FRAME</span></span>
+				</a>
+			) : (
+				<img src={image} alt={alt} loading="lazy" />
+			)
+		)}
+		<span class="media-counter" aria-hidden="true">{index} / 02</span>
+	</div>
+	<div class="media-copy">
+		<div class="media-heading"><span class="media-eyebrow">{eyebrow}</span><span class="media-mark" aria-hidden="true">✳</span></div>
+		<h3>{title}</h3>
+		{description && <p>{description}</p>}
+	</div>
+</article>

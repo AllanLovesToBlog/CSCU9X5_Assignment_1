@@ -1,0 +1,18 @@
+---
+interface Props {
+	label: string;
+	value: string;
+	detail: string;
+	index: string;
+}
+
+const { label, value, detail, index } = Astro.props;
+---
+
+<article class="spec-card" aria-label={`${label}: ${value}`}>
+	<div class="spec-card-content">
+		<div class="spec-card-top"><span class="spec-index">{index}</span><span class="spec-label">{label}</span></div>
+		<strong class="spec-value">{value}</strong>
+		<div class="spec-card-bottom"><span class="spec-detail">{detail}</span><span class="spec-signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></div>
+	</div>
+</article>

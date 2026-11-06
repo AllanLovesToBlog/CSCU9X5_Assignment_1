@@ -1,0 +1,105 @@
+---
+import ArchiveCard from "../components/ArchiveCard.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
+const razorIntro = asset("blacklist_1_razors_intro.webm");
+const items = [
+	{ title: "Opening frame", category: "PICS" as const, image: asset("opening_intro.webp"), imageAlt: "Need for Speed Most Wanted opening scene", description: "A still from the opening sequence that sets the Rockport story in motion." },
+	{ title: "Razor's Intro", category: "VIDEO" as const, image: asset("bmw-m3-gtr-nfs-hd-04.webp"), imageAlt: "BMW M3 GTR in a Rockport street scene", description: "A Blacklist rival intro from the local game-video archive.", videoSrc: razorIntro },
+	{ title: "Rockport menu", category: "PICS" as const, image: asset("main_menu_loading_screen.jpeg"), imageAlt: "Need for Speed Most Wanted menu artwork", description: "Menu artwork from the original game archive." },
+	{ title: "BMW M3 GTR", category: "VEHICLE IMAGE" as const, image: asset("bmw_m3_gtr.png"), imageAlt: "BMW M3 GTR on a Rockport highway", description: "The getaway car, documented across the vehicle dossier and gallery." },
+	{ title: "Razor profile", category: "DRIVER FILE" as const, image: asset("bmw-m3-gtr-from-2005-s-need-for-speed-most-wanted.webp"), imageAlt: "BMW M3 GTR archive image associated with Razor", description: "Blacklist #01 · rival record and vehicle file." },
+	{ title: "PS2 disc (2005)", category: "PHYSICAL ARTIFACT" as const, image: asset("playstation2_disc.png"), imageAlt: "PlayStation 2 Need for Speed Most Wanted game disc", description: "Original physical media represented in the collection." },
+];
+---
+
+<SiteLayout title="Evidence Locker | Most Wanted Archive" description="Browse Need for Speed: Most Wanted opening scenes, Blacklist rival intros, vehicle images, and physical game artifacts.">
+	<SiteHeader activePage="archive" />
+	<main class="interior-page" id="top">
+		<section class="page-banner" style={`--banner-image: url("${asset("main_menu_loading_screen.jpeg")}")`}>
+			<div class="interior-wrap page-banner-copy">
+				<p class="page-kicker"><span>03</span> / EVIDENCE LOCKER</p>
+				<h1>THE <em>ARCHIVE.</em></h1>
+				<p>Browse opening scenes, Blacklist rival intros, music and physical game artifacts.</p>
+			</div>
+		</section>
+
+		<section class="page-content interior-wrap" aria-labelledby="evidence-title">
+			<div class="content-heading">
+				<div><p class="page-kicker"><span>FEATURED · BLACKLIST #01</span></p><h2 id="evidence-title">FEATURED <em>VIDEO.</em></h2></div>
+				<p>A short description and source credit explain the selected game moment and its place in the story.</p>
+			</div>
+
+			<section class="archive-feature" aria-label="Featured Razor intro">
+				<div class="archive-feature-media">
+					<video autoplay muted playsinline controls preload="auto" poster={asset("bmw-m3-gtr-nfs-hd-04.webp")} aria-label="Razor's intro video">
+						<source src={razorIntro} type="video/webm" />
+						Your browser does not support embedded video.
+					</video>
+				</div>
+				<div class="archive-feature-copy">
+					<p class="page-kicker"><span>FEATURED VIDEO / 01</span></p>
+					<h2>Razor's Intro</h2>
+					<p>A rival file from the Blacklist archive. Review the opening, then follow the car and driver records through Rockport.</p>
+					<dl class="archive-meta">
+						<dt>FORMAT</dt><dd>VIDEO</dd>
+						<dt>SOURCE</dt><dd>GAME INTRO</dd>
+						<dt>ARCHIVE</dt><dd>BLACKLIST #01</dd>
+					</dl>
+				</div>
+			</section>
+
+			<div class="archive-tools" aria-label="Filter archive items">
+				<div class="archive-filters">
+					{["ALL ITEMS", "VIDEO", "PICS", "DRIVER FILE", "VEHICLE IMAGE", "PHYSICAL ARTIFACT"].map((filter, index) => (
+						<button type="button" data-archive-filter={filter === "ALL ITEMS" ? "all" : filter} aria-pressed={index === 0 ? "true" : "false"}>{filter}</button>
+					))}
+				</div>
+				<label class="archive-search" for="archive-search"><span aria-hidden="true">⌕</span><input id="archive-search" type="search" placeholder="SEARCH ARCHIVE…" autocomplete="off" /></label>
+			</div>
+
+			<div class="archive-grid" id="archive-grid">
+				{items.map((item) => <ArchiveCard {...item} />)}
+			</div>
+			<p class="empty-state" id="archive-empty">NO ARCHIVE ITEMS MATCH THAT SEARCH.</p>
+
+			<div class="archive-more">
+				<p>Keep following the trail through the rival records and the streets of Rockport.</p>
+				<a href={`${import.meta.env.BASE_URL}blacklist`}>OPEN BLACKLIST ARCHIVE&nbsp; ↗</a>
+			</div>
+		</section>
+	</main>
+	<SiteFooter />
+</SiteLayout>
+
+<script>
+	const archiveGrid = document.querySelector<HTMLElement>("#archive-grid");
+	const archiveSearch = document.querySelector<HTMLInputElement>("#archive-search");
+	const archiveEmpty = document.querySelector<HTMLElement>("#archive-empty");
+	const archiveFilters = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-archive-filter]"));
+	if (archiveGrid && archiveSearch) {
+		const cards = Array.from(archiveGrid.querySelectorAll<HTMLElement>("[data-archive-card]"));
+		let activeFilter = "all";
+		function updateArchive() {
+			const term = archiveSearch.value.trim().toLowerCase();
+			let visibleCount = 0;
+			cards.forEach((card) => {
+				const matchesFilter = activeFilter === "all" || card.dataset.category === activeFilter;
+				const matchesSearch = (card.dataset.title ?? "").includes(term);
+				card.hidden = !(matchesFilter && matchesSearch);
+				if (!card.hidden) visibleCount += 1;
+			});
+			archiveEmpty?.classList.toggle("is-visible", visibleCount === 0);
+		}
+
+		archiveFilters.forEach((button) => button.addEventListener("click", () => {
+			activeFilter = button.dataset.archiveFilter ?? "all";
+			archiveFilters.forEach((filter) => filter.setAttribute("aria-pressed", String(filter === button)));
+			updateArchive();
+		}));
+		archiveSearch.addEventListener("input", updateArchive);
+	}
+</script>

@@ -1,0 +1,113 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
+const gallery = [
+	{ src: asset("bmw_m3_gtr.png"), alt: "BMW M3 GTR on a Rockport highway", model: "BMW M3 GTR · HIGHWAY RUN" },
+	{ src: asset("bmw-m3-gtr-from-2005-s-need-for-speed-most-wanted.webp"), alt: "BMW M3 GTR in the Need for Speed Most Wanted archive", model: "ROCKPORT · VEHICLE FILE" },
+	{ src: asset("bmw-m3-gtr-nfs-hd-04.webp"), alt: "BMW M3 GTR in a Rockport street scene", model: "ROCKPORT · STREET FILE" },
+	{ src: asset("bmw-m3-gtr-nfs-hd-05.webp"), alt: "BMW M3 GTR racing through the city", model: "ROCKPORT · PURSUIT FILE" },
+	{ src: asset("bmw-m3-gtr-nfs-hd-14.jpg"), alt: "BMW M3 GTR parked in a garage", model: "GARAGE · VEHICLE FILE" },
+	{ src: asset("mercedes_mclaren.png"), alt: "Mercedes McLaren on a Rockport road", model: "ROCKPORT · RIVAL FILE" },
+];
+const specs = [
+	{ label: "Engine", value: "4.0L V8" },
+	{ label: "Power", value: "444 bhp" },
+	{ label: "Torque", value: "480 Nm" },
+	{ label: "Top speed", value: "~180 mph" },
+	{ label: "Transmission", value: "6-speed" },
+	{ label: "Drive", value: "Rear-wheel" },
+];
+---
+
+<SiteLayout title="BMW M3 GTR | Most Wanted Archive" description="Explore the BMW M3 GTR vehicle dossier, gallery, telemetry and story from Need for Speed: Most Wanted (2005).">
+	<SiteHeader activePage="car" />
+	<main class="interior-page" id="top">
+		<section class="page-banner" style={`--banner-image: url("${asset("bmw-m3-gtr-from-2005-s-need-for-speed-most-wanted.webp")}")`}>
+			<div class="interior-wrap page-banner-copy">
+				<p class="page-kicker"><span>01</span> / VEHICLE DOSSIER</p>
+				<h1>BMW M3 <em>GTR.</em></h1>
+				<p>The getaway car: race-built, stolen, and central to the story.</p>
+			</div>
+		</section>
+
+		<section class="page-content interior-wrap" aria-label="BMW M3 GTR dossier">
+			<div class="dossier-overview">
+				<figure class="vehicle-gallery" id="vehicle-gallery" role="region" aria-roledescription="carousel" aria-label="BMW M3 GTR image gallery" tabindex="0">
+					{gallery.map((image, index) => (
+						<div class="vehicle-slide" data-vehicle-slide data-model={image.model} aria-hidden={index !== 0} hidden={index !== 0}>
+							<img src={image.src} alt={image.alt} loading={index === 0 ? "eager" : "lazy"} />
+						</div>
+					))}
+					<div class="vehicle-gallery-shade" aria-hidden="true"></div>
+					<span class="vehicle-gallery-label">IMAGE / BMW M3 GTR GALLERY</span>
+					<figcaption class="vehicle-gallery-caption">
+						<strong id="vehicle-model">{gallery[0].model}</strong>
+						<div class="gallery-controls" aria-label="Gallery controls">
+							<button type="button" data-gallery-previous aria-label="Previous image">‹</button>
+							<span class="gallery-count" id="vehicle-count" aria-live="polite">IMAGE 01 / 06</span>
+							<button type="button" data-gallery-next aria-label="Next image">›</button>
+						</div>
+					</figcaption>
+				</figure>
+
+				<aside class="telemetry-panel" aria-labelledby="telemetry-title">
+					<header id="telemetry-title"><span>VEHICLE TELEMETRY</span><span>RACE SPEC / ROCKPORT</span></header>
+					<dl class="telemetry-list">
+						{specs.map((spec) => <div class="telemetry-row"><dt>{spec.label}</dt><dd>{spec.value}</dd></div>)}
+					</dl>
+				</aside>
+			</div>
+
+			<section class="dossier-story" aria-labelledby="story-title">
+				<div>
+					<p class="page-kicker"><span>THE LEGEND</span></p>
+					<h2 id="story-title">BUILT TO <em>GET AWAY.</em></h2>
+				</div>
+				<p>A race-ready BMW M3 GTR is taken from its driver in a setup. The archive follows the car’s return through Rockport and the Blacklist—a personal score that turns into the city’s defining pursuit. This dossier collects the car imagery, race specifications, and story evidence in one place.</p>
+			</section>
+
+			<section aria-labelledby="related-title">
+				<div class="content-heading" style="margin-top: 65px">
+					<div><p class="page-kicker"><span>RELATED FILES</span></p><h2 id="related-title">FOLLOW THE <em>TRAIL.</em></h2></div>
+				</div>
+				<div class="related-links">
+					<a class="related-link" href={`${import.meta.env.BASE_URL}blacklist`}><span>ROCKPORT'S MOST WANTED</span><strong>Blacklist roster</strong><b aria-hidden="true">↗</b></a>
+					<a class="related-link" href={`${import.meta.env.BASE_URL}archive`}><span>MEDIA ARCHIVE</span><strong>Evidence locker</strong><b aria-hidden="true">↗</b></a>
+					<a class="related-link" href={`${import.meta.env.BASE_URL}rockport`}><span>CITY INTELLIGENCE</span><strong>Rockport districts</strong><b aria-hidden="true">↗</b></a>
+				</div>
+			</section>
+		</section>
+	</main>
+	<SiteFooter />
+</SiteLayout>
+
+<script>
+	const gallery = document.querySelector<HTMLElement>("#vehicle-gallery");
+	if (gallery) {
+		const slides = Array.from(gallery.querySelectorAll<HTMLElement>("[data-vehicle-slide]"));
+		const title = gallery.querySelector<HTMLElement>("#vehicle-model");
+		const counter = gallery.querySelector<HTMLElement>("#vehicle-count");
+		let current = 0;
+
+		function showSlide(index: number) {
+			current = (index + slides.length) % slides.length;
+			slides.forEach((slide, slideIndex) => {
+				const isCurrent = slideIndex === current;
+				slide.hidden = !isCurrent;
+				slide.setAttribute("aria-hidden", String(!isCurrent));
+			});
+			if (title) title.textContent = slides[current].dataset.model ?? "BMW M3 GTR";
+			if (counter) counter.textContent = `IMAGE ${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+		}
+
+		gallery.querySelector("[data-gallery-previous]")?.addEventListener("click", () => showSlide(current - 1));
+		gallery.querySelector("[data-gallery-next]")?.addEventListener("click", () => showSlide(current + 1));
+		gallery.addEventListener("keydown", (event) => {
+			if (event.key === "ArrowLeft") showSlide(current - 1);
+			if (event.key === "ArrowRight") showSlide(current + 1);
+		});
+	}
+</script>

@@ -1,0 +1,31 @@
+---
+interface Props {
+	rank: number;
+	name: string;
+	vehicle: string;
+	image: string;
+	imageAlt: string;
+	detail: string;
+}
+
+const { rank, name, vehicle, image, imageAlt, detail } = Astro.props;
+const rankLabel = String(rank).padStart(2, "0");
+---
+
+<article class="driver-card" id={`driver-${rankLabel}`} data-driver-card data-rank={rank} data-name={name.toLowerCase()}>
+	<div class="driver-art">
+		<img src={image} alt={imageAlt} loading="lazy" />
+		<div class="driver-art-shade" aria-hidden="true"></div>
+		<span class="driver-art-label">DRIVER / VEHICLE FILE</span>
+		<span class="driver-rank">#{rankLabel}</span>
+	</div>
+	<div class="driver-copy">
+		<div class="driver-topline"><span>BLACKLIST #{rankLabel}</span><span class="driver-signal" aria-hidden="true">● ● ●</span></div>
+		<h2>{name}</h2>
+		<p class="driver-vehicle">{vehicle}</p>
+		<details class="driver-profile">
+			<summary>VIEW PROFILE <span aria-hidden="true">›</span></summary>
+			<p>{detail}</p>
+		</details>
+	</div>
+</article>
